@@ -1,0 +1,54 @@
+import java.util.*;
+class node{
+    int data;
+    node left,right;
+    node(int data){
+        this.data=data;
+    }
+}
+public class bttobst {
+    static node root;
+
+    public static node convertBttoBST(node root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        convertBttoBST(root, list);
+        Collections.sort(list);
+        return convertBttoBST(list, 0, list.size() - 1);
+    }
+    public static void convertBttoBST(node root,ArrayList<Integer> list){
+        if(root==null)
+        return;
+        convertBttoBST(root.left, list);
+        list.add(root.data);
+        convertBttoBST(root.right, list);
+    }
+    public static node convertBttoBST(ArrayList<Integer> list,int start,int end){
+        if(start>end)
+        return null;
+        int mid=(start+end)/2;
+        node node=new node(list.get(mid));
+        node.left=convertBttoBST(list,start,mid-1);
+        node.right=convertBttoBST(list,mid+1,end);
+        return node;
+
+    }
+    
+    
+    public static void print(node root) {
+        if (root == null)
+            return;
+        print(root.left);
+        System.out.print(root.data + "=>");
+        print(root.right);
+    }
+    public static void main(String[] args) {
+    
+        root=new node(10);
+        root.left = new node(30);
+        root.right = new node(15);
+        root.left.left = new node(20);
+        root.left.right = new node(5);
+        root=convertBttoBST(root);
+        print(root);
+    }
+}
